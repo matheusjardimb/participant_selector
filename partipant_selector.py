@@ -1,7 +1,18 @@
 import json
 import random
 
+import pyfiglet
+from colorama import Fore
+from pyfiglet import Figlet
 from tabulate import tabulate
+
+
+def print_default(msg: str) -> None:
+    print(Fore.BLUE + msg)
+
+
+def print_highlight(msg: str) -> None:
+    print(Fore.GREEN + msg)
 
 
 def read_participants_file(file_path: str) -> dict:
@@ -12,9 +23,9 @@ def read_participants_file(file_path: str) -> dict:
 
 
 def present_participants(participants: dict) -> None:
-    print('Estes são os participantes:')
+    print_default('Estes são os participantes:')
     table = [(key, value) for key, value in participants.items()]
-    print(tabulate(table, headers=['Nome', 'Participações'], tablefmt="outline"))
+    print_default(tabulate(table, headers=['Nome', 'Participações'], tablefmt="outline"))
 
 
 def get_random_participant_key(participants: dict) -> str:
@@ -24,7 +35,10 @@ def get_random_participant_key(participants: dict) -> str:
 
 
 def present_selected_participant(selected_participant_key: str) -> None:
-    print(f"Parabéns, {selected_participant_key}! É a sua vez :)")
+    print_default("Parabéns!")
+    styled_text = pyfiglet.figlet_format(selected_participant_key, font='doom')
+    print_highlight(styled_text)
+    print_default("É a sua vez :)")
 
 
 def update_result_file(file_path: str, data: dict) -> None:

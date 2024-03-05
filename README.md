@@ -19,11 +19,11 @@ python participant_selector.py
 
 ## What's missing?
 
-- [ ] Load candidates from .json file
+- [x] Load candidates from .json file
+- [x] Save the selected candidates to file
+- [x] Print selected participant's name using ASCII art
 - [ ] Add some delay before showing the result (for building tension)
-- [ ] Save the selected candidates to file, to avoid repeating results before everyone can participate
-- [ ] Print selected participant's name using ASCII art
-    - https://pypi.org/project/pyfiglet/
+- [ ] Avoid repeating results before everyone can participate
 - [ ] Add lint validation
 - [ ] Add automated testing
 - [ ] Create CI scripts for validating lint and tests
