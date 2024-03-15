@@ -1,18 +1,40 @@
 import json
 import random
+import sys
+import time
 
 import pyfiglet
 from colorama import Fore
-from pyfiglet import Figlet
 from tabulate import tabulate
+
+DEFAULT_COLOR = Fore.BLUE
+HIGHLIGHT_COLOR = Fore.GREEN
+
+
+def typewriter_effect(sentence):
+    for char in sentence:
+        sys.stdout.write(char)
+        sys.stdout.flush()
+        type_delay = random.randint(0, 20) / 100
+        time.sleep(type_delay)
+    print('')
+    time.sleep(1)
+
+
+def type_default(msg: str) -> None:
+    typewriter_effect(DEFAULT_COLOR + msg)
+
+
+def type_highlight(msg: str) -> None:
+    typewriter_effect(HIGHLIGHT_COLOR + msg)
 
 
 def print_default(msg: str) -> None:
-    print(Fore.BLUE + msg)
+    print(DEFAULT_COLOR + msg)
 
 
 def print_highlight(msg: str) -> None:
-    print(Fore.GREEN + msg)
+    print(HIGHLIGHT_COLOR + msg)
 
 
 def read_participants_file(file_path: str) -> dict:
@@ -23,7 +45,7 @@ def read_participants_file(file_path: str) -> dict:
 
 
 def present_participants(participants: dict) -> None:
-    print_default('Estes são os participantes:')
+    type_default('Estes são os participantes:')
     table = [(key, value) for key, value in participants.items()]
     print_default(tabulate(table, headers=['Nome', 'Participações'], tablefmt="outline"))
 
@@ -35,10 +57,10 @@ def get_random_participant_key(participants: dict) -> str:
 
 
 def present_selected_participant(selected_participant_key: str) -> None:
-    print_default("Parabéns!")
+    type_default("Parabéns!")
     styled_text = pyfiglet.figlet_format(selected_participant_key, font='doom')
     print_highlight(styled_text)
-    print_default("É a sua vez :)")
+    type_default("É a sua vez :)")
 
 
 def update_result_file(file_path: str, data: dict) -> None:
