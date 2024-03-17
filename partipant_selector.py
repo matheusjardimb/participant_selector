@@ -14,11 +14,11 @@ HIGHLIGHT_COLOR = Fore.GREEN
 
 def clear_console():
     # For Windows
-    if os.name == 'nt':
-        _ = os.system('cls')
+    if os.name == "nt":
+        _ = os.system("cls")
     # For Mac and Linux
     else:
-        _ = os.system('clear')
+        _ = os.system("clear")
 
 
 def typewriter_effect(sentence):
@@ -27,7 +27,7 @@ def typewriter_effect(sentence):
         sys.stdout.flush()
         type_delay = random.randint(0, 20) / 100
         time.sleep(type_delay)
-    print('')
+    print("")
     time.sleep(1)
 
 
@@ -55,9 +55,11 @@ def read_participants_file(file_path: str) -> dict:
 
 
 def present_participants(participants: dict) -> None:
-    type_default('Estes são os participantes:')
+    type_default("Estes são os participantes:")
     table = [(key, value) for key, value in participants.items()]
-    print_default(tabulate(table, headers=['Nome', 'Participações'], tablefmt="outline"))
+    print_default(
+        tabulate(table, headers=["Nome", "Participações"], tablefmt="outline")
+    )
 
 
 def get_random_participant_key(participants: dict) -> str:
@@ -68,12 +70,13 @@ def get_random_participant_key(participants: dict) -> str:
 
 def present_selected_participant(selected_participant_key: str) -> None:
     type_default("Parabéns!")
-    styled_text = pyfiglet.figlet_format(selected_participant_key, font='doom')
+    styled_text = pyfiglet.figlet_format(selected_participant_key, font="doom")
     print_highlight(styled_text)
     type_default("É a sua vez :)")
 
 
 def update_result_file(file_path: str, data: dict) -> None:
+    type_default("Atualizando arquivo com resultados")
     with open(file_path, "w") as json_file:
         json.dump(data, json_file, indent=4)
 
@@ -86,19 +89,31 @@ def wait_confirmation():
     input("Aperte qualquer tecla para continuar...")
 
 
-def main(file_path: str = 'participants.json') -> None:
+def should_select_another_participant() -> bool:
+    repeat = input(
+        "Aperte 'o' para escolher outro participante, ou 'enter' para salvar escolha: "
+    )
+    return repeat == "o"
+
+
+def main(file_path: str = "participants.json") -> None:
     clear_console()
     participants = read_participants_file(file_path)
     present_participants(participants)
-
     wait_confirmation()
-    clear_console()
 
-    selected_participant_key = get_random_participant_key(participants)
-    present_selected_participant(selected_participant_key)
+    selected_participant_key = None
+    while selected_participant_key is None:
+        clear_console()
+        selected_participant_key = get_random_participant_key(participants)
+        present_selected_participant(selected_participant_key)
+
+        if should_select_another_participant():
+            selected_participant_key = None
+
     increase_participation_counter(participants, selected_participant_key)
     update_result_file(file_path, participants)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
