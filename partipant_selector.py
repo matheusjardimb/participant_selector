@@ -1,4 +1,5 @@
 import json
+import os
 import random
 import sys
 import time
@@ -9,6 +10,15 @@ from tabulate import tabulate
 
 DEFAULT_COLOR = Fore.BLUE
 HIGHLIGHT_COLOR = Fore.GREEN
+
+
+def clear_console():
+    # For Windows
+    if os.name == 'nt':
+        _ = os.system('cls')
+    # For Mac and Linux
+    else:
+        _ = os.system('clear')
 
 
 def typewriter_effect(sentence):
@@ -72,9 +82,18 @@ def increase_participation_counter(participants, selected_participant_key) -> No
     participants[selected_participant_key] += 1
 
 
+def wait_confirmation():
+    input("Aperte qualquer tecla para continuar...")
+
+
 def main(file_path: str = 'participants.json') -> None:
+    clear_console()
     participants = read_participants_file(file_path)
     present_participants(participants)
+
+    wait_confirmation()
+    clear_console()
+
     selected_participant_key = get_random_participant_key(participants)
     present_selected_participant(selected_participant_key)
     increase_participation_counter(participants, selected_participant_key)
