@@ -89,8 +89,8 @@ def increase_participation_counter(participants, selected_participant_key) -> No
     participants[selected_participant_key] += 1
 
 
-def wait_confirmation():
-    input("Aperte qualquer tecla para continuar...")
+def start_participant_selection():
+    input("Aperte qualquer tecla para sortear participante...")
 
 
 def should_select_another_participant() -> bool:
@@ -125,7 +125,7 @@ def main(file_path: str = "participants.json") -> None:
     type_default("Estes são os participantes:")
     present_participants(participating)
 
-    wait_confirmation()
+    start_participant_selection()
 
     selected_participant_key = None
     while selected_participant_key is None:
