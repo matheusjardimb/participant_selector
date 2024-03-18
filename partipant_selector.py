@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import json
 import os
 import random
@@ -82,7 +84,7 @@ def present_selected_participant(selected_participant_key: str) -> None:
 def update_result_file(file_path: str, data: dict) -> None:
     type_default("Atualizando arquivo com resultados")
     with open(file_path, "w") as json_file:
-        json.dump(data, json_file, indent=4)
+        json.dump(data, json_file, indent=2)
 
 
 def increase_participation_counter(participants, selected_participant_key) -> None:
