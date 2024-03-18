@@ -9,6 +9,9 @@ Simple tool for choosing who's going to help in class today :)
 pyenv virtualenv $(cat .python-version) participants
 pyenv activate participants
 
+pip install -r requirements.txt
+pre-commit install
+
 # Create data file based on sample
 cp participants.json_sample participants.json_s
 
@@ -22,16 +25,14 @@ python participant_selector.py
 - [x] Load candidates from .json file
 - [x] Save the selected candidates to file
 - [x] Print selected participant's name using ASCII art
+- [x] Add lint validation
+- [x] Add lint to pre-commit
 - [ ] Add some delay before showing the result (for building tension)
 - [ ] Avoid repeating results before everyone can participate
-- [ ] Add lint validation
 - [ ] Add automated testing
 - [ ] Create CI scripts for validating lint and tests
-- [ ] Add lint to pre-commit
 - [ ] Multi-language support
 
 ## License
 
 [MIT License](LICENSE)
-
-
