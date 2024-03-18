@@ -27,8 +27,8 @@ python participant_selector.py
 - [x] Print selected participant's name using ASCII art
 - [x] Add lint validation
 - [x] Add lint to pre-commit
+- [x] Avoid repeating results before everyone can participate
 - [ ] Add some delay before showing the result (for building tension)
-- [ ] Avoid repeating results before everyone can participate
 - [ ] Add automated testing
 - [ ] Create CI scripts for validating lint and tests
 - [ ] Multi-language support

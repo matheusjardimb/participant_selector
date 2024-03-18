@@ -21,13 +21,17 @@ def clear_console():
         _ = os.system("clear")
 
 
+def print_new_line():
+    print("")
+
+
 def typewriter_effect(sentence):
     for char in sentence:
         sys.stdout.write(char)
         sys.stdout.flush()
         type_delay = random.randint(0, 20) / 100
         time.sleep(type_delay)
-    print("")
+    print_new_line()
     time.sleep(1)
 
 
@@ -55,11 +59,11 @@ def read_participants_file(file_path: str) -> dict:
 
 
 def present_participants(participants: dict) -> None:
-    type_default("Estes são os participantes:")
     table = [(key, value) for key, value in participants.items()]
     print_default(
         tabulate(table, headers=["Nome", "Participações"], tablefmt="outline")
     )
+    print_new_line()
 
 
 def get_random_participant_key(participants: dict) -> str:
@@ -98,21 +102,42 @@ def should_select_another_participant() -> bool:
 
 def main(file_path: str = "participants.json") -> None:
     clear_console()
-    participants = read_participants_file(file_path)
-    present_participants(participants)
+    all_participants = read_participants_file(file_path)
+
+    max_participation = max(all_participants.values())
+    participating = all_participants
+
+    not_participating = {
+        key: value
+        for key, value in all_participants.items()
+        if value == max_participation
+    }
+    if len(not_participating) != len(all_participants):
+        type_default("Estes NÃO serão selecionados:")
+        present_participants(not_participating)
+
+        participating = {
+            key: value
+            for key, value in all_participants.items()
+            if value != max_participation
+        }
+
+    type_default("Estes são os participantes:")
+    present_participants(participating)
+
     wait_confirmation()
 
     selected_participant_key = None
     while selected_participant_key is None:
         clear_console()
-        selected_participant_key = get_random_participant_key(participants)
+        selected_participant_key = get_random_participant_key(participating)
         present_selected_participant(selected_participant_key)
 
         if should_select_another_participant():
             selected_participant_key = None
 
-    increase_participation_counter(participants, selected_participant_key)
-    update_result_file(file_path, participants)
+    increase_participation_counter(all_participants, selected_participant_key)
+    update_result_file(file_path, all_participants)
 
 
 if __name__ == "__main__":
